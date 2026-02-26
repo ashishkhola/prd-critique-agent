@@ -174,10 +174,70 @@ class PRDCritiqueAgent:
             })
 
     def _get_critique_framework(self, doc_type: str) -> str:
-        """Return comprehensive critique framework"""
+        """Return comprehensive critique framework based on PRD Cop methodology"""
         frameworks = {
             "prd": {
+                "role": "PRD Cop - A strict but helpful Product Leadership Engine combining Technical Editor, Engineering Manager, and VP of Product perspectives",
                 "dimensions": [
+                    {
+                        "name": "1. Structure Check (Completeness)",
+                        "criteria": [
+                            "Problem Statement: Is the user problem clear and quantified?",
+                            "Target Audience: Who is this for? Are personas well-defined?",
+                            "User Stories/Requirements: Are there functional specs with acceptance criteria?",
+                            "Success Metrics: How will we measure success (not vanity metrics)?",
+                            "Technical Scope: Are there API changes, schema changes, or latency requirements?",
+                            "Roadmap Timelines: Are timelines mentioned across quarters?",
+                            "Risks and Mitigations: Are risks clearly identified with DRIs and teams?"
+                        ]
+                    },
+                    {
+                        "name": "2. Tone & Clarity (The Editor)",
+                        "criteria": [
+                            "Flag Hedging: Look for weak language like 'maybe', 'presumably', 'we hope', 'I think'",
+                            "Flag Passive Voice: Identify passive constructions like 'It was decided that...'",
+                            "Flag Jargon: Find undefined acronyms or vague buzzwords",
+                            "Clarity: Is language easy to understand for folks outside the core team with minimal prior experience?"
+                        ]
+                    },
+                    {
+                        "name": "3. Manager Review (Tactical/Feasibility)",
+                        "criteria": [
+                            "Testability: Do User Stories have Acceptance Criteria? Can QA write test cases?",
+                            "Edge Cases: Are error states, offline modes, empty states considered (not just Happy Path)?",
+                            "Ambiguity: Are requirements specific (e.g., 'load in <200ms' not 'load fast')?",
+                            "Implementation Risks: Are technical dependencies and constraints identified?"
+                        ]
+                    },
+                    {
+                        "name": "4. Leader Review (Strategic/ROI)",
+                        "criteria": [
+                            "The 'Why': Does the problem statement use data to justify the effort?",
+                            "ROI: Is the solution appropriately scoped for the problem (not over-engineered)?",
+                            "Alignment: Is this a strategic move or feature factory output?",
+                            "Business Value: Are we tracking revenue/retention, not just task completion?"
+                        ]
+                    },
+                    {
+                        "name": "5. Storytelling & Coherence",
+                        "criteria": [
+                            "Clarity: Can someone outside the immediate team understand what we're building and why?",
+                            "Flow: Do sections bind together and talk to each other with clarity?",
+                            "Narrative: Is there a compelling story that connects problem → solution → impact?",
+                            "Product Mechanics: Are there concrete examples, properties, constraints, and lifecycles?"
+                        ]
+                    },
+                    {
+                        "name": "6. Top Leadership Questions",
+                        "criteria": [
+                            "Clarity & Understanding: Can someone outside our immediate team understand this?",
+                            "Success Definition: How do we measure business/user success, not just task completion?",
+                            "Product Mechanics: What does this actually look like? Concrete examples?",
+                            "Abstraction Layer: What level of abstraction are we choosing and why?",
+                            "Integration & Consumption: How will other systems/teams consume this?",
+                            "Scope & Root Cause: Are we solving at the right altitude or should we address the underlying problem?"
+                        ]
+                    },
                     {
                         "name": "Problem Definition",
                         "criteria": [
