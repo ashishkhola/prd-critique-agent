@@ -1,0 +1,45 @@
+{
+  "api": {
+    "anthropic_api_key": "YOUR_ANTHROPIC_API_KEY",
+    "model": "claude-opus-4-6",
+    "max_tokens": 4096
+  },
+  "google": {
+    "credentials_path": "./google-credentials.json",
+    "use_service_account": true
+  },
+  "agent": {
+    "max_iterations": 15,
+    "enable_verbose_logging": true
+  },
+  "critique": {
+    "document_types": ["prd", "product_strategy"],
+    "severity_levels": ["critical", "high", "medium", "low"],
+    "min_severity_to_report": "low",
+    "dimensions": {
+      "problem_definition": true,
+      "solution_clarity": true,
+      "requirements_quality": true,
+      "success_metrics": true,
+      "technical_feasibility": true,
+      "risks_mitigation": true,
+      "timeline_resources": true
+    }
+  },
+  "output": {
+    "reports_directory": "./reports",
+    "format": "markdown",
+    "include_timestamp": true,
+    "include_severity_summary": true
+  },
+  "notifications": {
+    "enabled": false,
+    "slack_webhook_url": "",
+    "email": {
+      "enabled": false,
+      "smtp_server": "",
+      "from_address": "",
+      "to_addresses": []
+    }
+  }
+}
