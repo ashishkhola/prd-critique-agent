@@ -17,9 +17,28 @@ from datetime import datetime
 class PRDCritiqueAgent:
     """Autonomous agent for critiquing product strategy and PRD documents"""
 
-    def __init__(self, api_key: str, model: str = "claude-opus-4-6"):
-        self.client = anthropic.Anthropic(api_key=api_key)
-        self.model = model
+    def __init__(self, api_key: str = None, model: str = "claude-opus-4-6"):
+        import os
+
+        # Support Stripe's internal proxy
+        base_url = os.environ.get('ANTHROPIC_BASE_URL')
+        auth_token = os.environ.get('ANTHROPIC_AUTH_TOKEN')
+
+        if base_url and auth_token:
+            # Use Stripe's internal setup
+            self.client = anthropic.Anthropic(
+                base_url=base_url,
+                api_key=auth_token
+            )
+            # Use Claude Opus 4.6 (latest and most capable)
+            self.model = "claude-opus-4-6"
+        else:
+            # Use standard Anthropic API
+            if not api_key:
+                raise ValueError("API key required when not using Stripe's internal proxy")
+            self.client = anthropic.Anthropic(api_key=api_key)
+            self.model = model
+
         self.conversation_history = []
 
     def define_tools(self) -> List[Dict[str, Any]]:
