@@ -49,6 +49,8 @@ reports/
 !README.md
 !QUICKSTART.md
 !PROJECT_STRUCTURE.md
+!README_USAGE.md
+!DEPLOYMENT.md
 
 # OS
 .DS_Store

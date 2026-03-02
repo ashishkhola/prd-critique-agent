@@ -1,21 +1,165 @@
-# PRD Critique Agent
+# PRD Cop - Autonomous PRD Critique Agent
 
-An autonomous AI agent that critiques Product Requirements Documents (PRDs) and product strategy documents using Claude API with custom tool use.
+🚨 An autonomous AI agent that critiques Product Requirements Documents (PRDs) using the comprehensive **"PRD Cop"** framework - representing perspectives from Technical Editors, Engineering Managers, VP of Product, and C-level leadership.
 
-## Features
+**Score:** 100-point evaluation system | **Model:** Claude Opus 4.6 | **Deploy:** Slack, Web API, CLI, or CI/CD
 
-- **Autonomous Operation**: Runs end-to-end without human intervention
-- **Google Docs Integration**: Reads PRDs directly from Google Docs
-- **Comprehensive Critique Framework**: Evaluates PRDs across 7 key dimensions:
-  - Problem Definition
-  - Solution Clarity
-  - Requirements Quality
-  - Success Metrics
-  - Technical Feasibility
-  - Risks & Mitigation
-  - Timeline & Resources
-- **Structured Reports**: Generates markdown reports with severity ratings
-- **Custom Tool System**: Extensible architecture for adding new capabilities
+## 🎯 Key Features
+
+- **🤖 Fully Autonomous**: Runs end-to-end without human intervention
+- **📊 100-Point Scoring**: Comprehensive evaluation across 6 dimensions
+- **🔧 Auto-Improvement**: Generates improved PRD versions with all fixes applied
+- **🚀 Multiple Deployment Options**: Slack bot, REST API, CLI, or GitHub Actions
+- **🔒 Stripe Internal Support**: Auto-detects Stripe's Anthropic proxy
+- **📝 Detailed Reports**: Markdown reports with actionable feedback
+- **⚡ Fast**: 30-60 seconds per critique
+
+## 📊 Scoring Framework
+
+**100 Points Total:**
+
+| Dimension | Points | What It Checks |
+|-----------|--------|----------------|
+| **Structure Check** | 15 | Completeness (all sections present?) |
+| **Tone & Clarity** | 20 | No hedging, placeholders, undefined jargon |
+| **Manager Review** | 25 | Testable criteria, edge cases, dependencies |
+| **Leader Review** | 20 | ROI, resource requirements, strategic alignment |
+| **Storytelling** | 10 | Logical flow, coherent narrative |
+| **Top Leadership** | 10 | Failure analysis, cost-benefit, timing justification |
+
+**Score Interpretation:**
+- **85-100**: ✅ Leadership-ready. Minor polish needed.
+- **70-84**: ⚠️  Solid foundation. Fill specific gaps.
+- **50-69**: ❌ Major issues. Needs significant revision.
+- **<50**: 🚨 Not ready. Fundamental rework required.
+
+## 🚀 Quick Start
+
+### Option 1: Command Line (Fastest)
+
+```bash
+# Clone and setup
+git clone https://github.com/ashishkhola/prd-critique-agent.git
+cd prd-critique-agent
+python3 -m venv venv
+source venv/bin/activate
+pip install anthropic
+
+# Set API key (or use Stripe internal - auto-detected)
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# Critique a PRD
+python3 prd_cop_agent.py your_prd.txt
+
+# Output:
+# 🔍 PRD Cop analyzing: your_prd
+# ✅ Analysis complete!
+# 📊 Score: 78/100
+# 💾 Report saved: your_prd_Critique_20260302_131040.md
+#
+# 🔧 Generate improved version? (y/n):
+```
+
+### Option 2: Slack Bot (Best for Teams)
+
+Perfect for teams - get instant critiques in Slack.
+
+```bash
+# Setup (5 minutes)
+# 1. Create Slack app at https://api.slack.com/apps
+# 2. Add bot scopes: chat:write, commands, files:write
+# 3. Enable Socket Mode, create app token
+# 4. Install to workspace
+
+# Set environment
+export SLACK_BOT_TOKEN="xoxb-..."
+export SLACK_APP_TOKEN="xapp-..."
+export ANTHROPIC_API_KEY="sk-ant-..."
+
+# Run bot
+pip install slack-bolt anthropic
+python3 slack_bot.py
+
+# Use in Slack
+/prd-cop [paste your PRD text]
+/prd-cop https://docs.google.com/document/d/YOUR_DOC_ID
+```
+
+### Option 3: Web Service / REST API
+
+Deploy as a web service for integrations.
+
+```bash
+# Run locally
+pip install flask flask-cors anthropic
+export ANTHROPIC_API_KEY="sk-ant-..."
+python3 web_service.py
+
+# Or deploy to cloud
+# See DEPLOYMENT.md for Heroku, Cloud Run, Lambda
+```
+
+**API Usage:**
+```bash
+curl -X POST http://localhost:8080/critique \
+  -H "Content-Type: application/json" \
+  -d '{"prd_text": "# Background\n...", "prd_name": "Feature X"}'
+
+# Response:
+{
+  "score": 78,
+  "report_text": "## PRD COP FINAL SCORE: 78/100...",
+  "report_path": "reports/Feature_X_Critique_20260302.md"
+}
+```
+
+### Option 4: GitHub Actions (CI/CD)
+
+Automatically check PRD quality on every PR.
+
+```yaml
+# .github/workflows/prd-cop.yml
+name: PRD Quality Check
+
+on:
+  pull_request:
+    paths: ['docs/prds/**/*.md']
+
+jobs:
+  prd-cop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pip install anthropic
+      - env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python3 prd_cop_agent.py docs/prds/*.md
+      # Fail if score < 70
+```
+
+## 📖 Documentation
+
+- **[README_USAGE.md](README_USAGE.md)**: Detailed usage guide with examples
+- **[DEPLOYMENT.md](DEPLOYMENT.md)**: Deploy to Slack, Heroku, Cloud Run, Lambda
+- **[PRD_COP_FRAMEWORK.md](docs/PRD_COP_FRAMEWORK.md)**: Full scoring framework details
+
+## 🎓 Example Results
+
+**Before (Score: 52/100):**
+- ❌ Placeholders like ">'x's" undefined
+- ❌ Missing Success Metrics section
+- ❌ No Roadmap with milestones
+- ❌ TBD values without context
+- ❌ Weak hedging language ("~2 days")
+
+**After (Score: 78/100):**
+- ✅ Concrete thresholds ("steps exceeding 3 seconds")
+- ✅ Success Metrics section with MTTD, MTTR targets
+- ✅ 4-phase Roadmap over 20 weeks
+- ✅ Risks & Mitigations with owners
+- ✅ Data-backed claims ("averages 2 days based on Q3-Q4 2025")
+
+**Improvement: +26 points in one iteration**
 
 ## Architecture
 
