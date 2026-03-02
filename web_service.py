@@ -12,18 +12,24 @@ Endpoints:
     GET /health - Health check
 """
 
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 from prd_cop_agent import PRDCopAgent
 import os
 from pathlib import Path
 import tempfile
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 CORS(app)  # Enable CORS for web frontend
 
 # Initialize agent
 agent = PRDCopAgent()
+
+
+@app.route('/')
+def index():
+    """Serve the web UI"""
+    return send_from_directory('static', 'index.html')
 
 
 @app.route('/health', methods=['GET'])
